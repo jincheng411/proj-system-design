@@ -57,9 +57,24 @@ CREATE TABLE photos (
     REFERENCES styles(id)
 );
 
+COPY products(id, name, slogan, description, category, default_price)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/product.csv'
+WITH DELIMITER ',' CSV HEADER NULL 'null';
+
+COPY features(id, product_id, feature, value)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/features.csv'
+WITH DELIMITER ',' CSV HEADER NULL 'null';
+
+COPY styles(id,product_id, name, original_price, sale_price, default_style)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/styles.csv'
+WITH DELIMITER ',' CSV HEADER NULL 'null';
+
+COPY skus(id,styleId, quantity, size, styleId)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
+WITH DELIMITER ',' CSV HEADER NULL 'null';
 
 
-INSERT INTO products (name, slogan, description, category, default_price) VALUES ('Camo Onesie', 'Blend in to your crowd', 'The So Fatigues will wake you up and fit you in. This high energy camo will have you blending in to even the wildest surroundings.', 'Jackets', 140);
-INSERT INTO products (name, slogan, description, category, default_price) VALUES ('Bright Future Sunglasses','Youve got to wear shades', 'Where youre going you might not need roads, but you definitely need some shades. Give those baby blues a rest and let the future shine bright on these timeless lenses.', 'Accessories', 69);
-INSERT INTO features (id, product_id, feature, value) VALUES (1,1,'Fabric', 'Canvas');
-INSERT INTO features (id, product_id, feature, value) VALUES (2,2,'Buttons', 'Brass');
+COPY photos(id,styleId, thumbnail_url, url)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
+WITH DELIMITER ',' CSV HEADER NULL 'null';
+

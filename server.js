@@ -12,7 +12,8 @@ app.get('/api/hello', (req, res) => {
   res.send('hello');
 });
 app.get('/api/products', (req, res) => {
-  Products.getAllProducts((err, data) => {
+  const {page, count} = req.query;
+  Products.getAllProducts(page || 1, count || 5, (err, data) => {
     res.json(data);
   })
 });

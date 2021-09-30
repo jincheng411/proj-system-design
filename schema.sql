@@ -16,10 +16,7 @@ CREATE TABLE features (
   id SERIAL PRIMARY KEY,
   feature VARCHAR (100),
   value VARCHAR(200),
-  product_id SERIAL,
-  CONSTRAINT fk
-    FOREIGN KEY(product_id)
-      REFERENCES products(id)
+  product_id BIGINT REFERENCES products (id)
 );
 
 -- DROP TABLE IF EXISTS styles;
@@ -29,10 +26,7 @@ CREATE TABLE styles (
   original_price REAL,
   sale_price REAL,
   default_style BOOLEAN,
-  product_id SERIAL,
-  CONSTRAINT fk
-    FOREIGN KEY(product_id)
-      REFERENCES products(id)
+  product_id BIGINT REFERENCES products (id)
 );
 
 -- DROP TABLE IF EXISTS skus;
@@ -40,10 +34,7 @@ CREATE TABLE skus (
   id SERIAL PRIMARY KEY,
   quantity INT,
   size VARCHAR(10),
-  styleId SERIAL,
-  CONSTRAINT fk
-    FOREIGN KEY(styleId)
-    REFERENCES styles(id)
+  styleId BIGINT REFERENCES styles (id)
 );
 
 -- DROP TABLE IF EXISTS photos;
@@ -51,10 +42,13 @@ CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
   thumbnail_url VARCHAR(300),
   url VARCHAR (300),
-  styleId SERIAL,
-  CONSTRAINT fk
-    FOREIGN KEY(styleId)
-    REFERENCES styles(id)
+  styleId BIGINT REFERENCES styles (id)
+);
+
+CREATE TABLE related (
+  id SERIAL PRIMARY KEY,
+  current_product_id BIGINT REFERENCES products (id),
+  related_product_id BIGINT REFERENCES products (id)
 );
 
 COPY products(id, name, slogan, description, category, default_price)
@@ -65,16 +59,19 @@ COPY features(id, product_id, feature, value)
 FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/features.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
 
-COPY styles(id,product_id, name, original_price, sale_price, default_style)
+COPY styles(id,product_id, name, sale_price, original_price, default_style)
 FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/styles.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
 
-COPY skus(id,styleId, quantity, size, styleId)
+COPY skus(id,styleId, size, quantity)
 FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
 
-
-COPY photos(id,styleId, thumbnail_url, url)
+COPY photos(id,styleId, url, thumbnail_url)
 FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
+
+COPY related(id,current_product_id, related_product_id)
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/related.csv'
+WITH DELIMITER ',' CSV HEADER NULL '0';
 

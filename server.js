@@ -29,7 +29,6 @@ app.get('/api/products/:product_id/styles', (req, res) => {
   var {product_id} = req.params;
   Styles.getStylesByProductId(product_id, (err, data) => {
     res.json(data);
-    // console.log(data)
   })
 })
 

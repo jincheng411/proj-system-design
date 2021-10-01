@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS products;
 CREATE DATABASE products;
 \c products;
--- DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100),
@@ -37,11 +37,11 @@ CREATE TABLE skus (
   styleId BIGINT REFERENCES styles (id)
 );
 
--- DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS photos;
 CREATE TABLE photos (
   id SERIAL PRIMARY KEY,
-  thumbnail_url VARCHAR(300),
-  url VARCHAR (300),
+  thumbnail_url VARCHAR,
+  url VARCHAR,
   styleId BIGINT REFERENCES styles (id)
 );
 
@@ -68,7 +68,7 @@ FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
 
 COPY photos(id,styleId, url, thumbnail_url)
-FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/skus.csv'
+FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/photos.csv'
 WITH DELIMITER ',' CSV HEADER NULL 'null';
 
 COPY related(id,current_product_id, related_product_id)

@@ -19,7 +19,6 @@ app.get('/api/products', (req, res) => {
 });
 app.get('/api/products/:id', (req, res) => {
   var {id} = req.params;
-  console.log(id)
   Products.getProduct(id, (err, data) => {
     res.json(data);
   })
@@ -29,6 +28,17 @@ app.get('/api/products/:product_id/styles', (req, res) => {
   var {product_id} = req.params;
   Styles.getStylesByProductId(product_id, (err, data) => {
     res.json(data);
+  })
+})
+
+app.get('/api/products/:product_id/related', (req, res) => {
+  var {product_id} = req.params;
+  Products.getRelatedProducts(product_id, (err, data) => {
+    let arr = [];
+    for (let i of data) {
+      arr.push(Number(i.related_product_id))
+    }
+    res.json(arr);
   })
 })
 

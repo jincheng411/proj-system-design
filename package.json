@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "npx nodemon ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,9 @@
     "express": "^4.17.1",
     "morgan": "^1.10.0",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4",
+    "supertest": "^6.1.6"
   }
 }

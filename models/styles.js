@@ -43,7 +43,8 @@ module.exports = {
     WHERE p.id=${productId}
     GROUP BY p.id;
     `, (err, data) => {
-      console.log(err)
+      if (err) console.log(err)
+      return data.rows
       cb(err, data.rows);
     })
   }

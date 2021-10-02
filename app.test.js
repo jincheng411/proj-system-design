@@ -41,17 +41,18 @@ describe('get /products/:id', () => {
   })
 })
 
-// describe('get /products/:id/styles', () => {
-//   test('should return a 200 status code', async () => {
-//     const response = await request(app).get('/api/products/1/styles').send({});
-//     expect(response.statusCode).toBe(200)
-//   })
-//   test('should return an Array', async () => {
-//     const response = await request(app).get('/api/products/1/styles').send({});
-//     expect(response.body).toBeInstanceOf(Array)
-//   })
-//   test('should return proper result when id=1 ', async () => {
-//     const response = await request(app).get('/api/products/1/styles').send({});
-//     expect(response.body[0].id).toEqual(1)
-//   })
-// })
+describe('get /products/:id/styles', () => {
+  test('should return a 200 status code', async () => {
+    const response = await request(app).get('/api/products/1/styles').send({});
+    expect(response.statusCode).toBe(200)
+  })
+  test('should return an Array', async () => {
+    const response = await request(app).get('/api/products/1/styles').send({});
+    expect(response.body).toBeInstanceOf(Array)
+  })
+  test('should return proper result when id=1 ', async () => {
+    const response = await request(app).get('/api/products/1/styles').send({});
+    expect(response.body[0].product_id).toEqual(1)
+    expect(response.body[0].results[0].photos.length).toEqual(6)
+  })
+})

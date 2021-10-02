@@ -75,3 +75,7 @@ COPY related(id,current_product_id, related_product_id)
 FROM '/Users/jincheng/Desktop/rfe/sdc/products/csv-data/related.csv'
 WITH DELIMITER ',' CSV HEADER NULL '0';
 
+CREATE INDEX product_id_index ON styles(product_id);
+CREATE INDEX style_id_index ON skus(styleId);
+CREATE INDEX photo_style_id_index ON photos(styleId);
+CREATE INDEX current_product_index ON related(current_product_id);

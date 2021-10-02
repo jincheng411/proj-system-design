@@ -1,8 +1,8 @@
 const db = require('../db');
 
 module.exports = {
-  getStylesByProductId: (productId, cb) => {
-    db.query(`
+  getStylesByProductId: async (productId, cb) => {
+    const queryString = `
     SELECT  p.id AS product_id,
             ARRAY_AGG(JSON_BUILD_OBJECT
               (
@@ -42,9 +42,8 @@ module.exports = {
     ON p.id = s.product_id
     WHERE p.id=${productId}
     GROUP BY p.id;
-    `, (err, data) => {
-      console.log(err)
-      cb(err, data.rows);
-    })
+    `;
+    const {rows} = await db.query(queryString);
+    return rows;
   }
 }

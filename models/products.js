@@ -6,8 +6,10 @@ module.exports = {
     FROM products
     LIMIT ${count}
     OFFSET ${count * (page - 1)};`;
-    db.query(queryString, (err, data) => {
-      cb(err, data.rows);
+    return db.query(queryString).then(({rows}) => {
+      return rows;
+    }).catch(err => {
+      console.log(err);
     })
   },
   getProduct: (id, cb) => {
@@ -20,11 +22,13 @@ module.exports = {
     WHERE p.id = ${id}
     GROUP BY p.id;
     `;
-    db.query(queryString, (err, data) => {
-      cb(err,data.rows);
+    return db.query(queryString).then(({rows}) => {
+      return rows;
+    }).catch(err => {
+      console.log(err)
     })
   },
-  getRelatedProducts: (productId, cb) => {
+  getRelatedProducts: (productId) => {
     const queryString = `
     SELECT related_product_id
     FROM related
@@ -32,9 +36,10 @@ module.exports = {
     ON related.current_product_id = products.id
     WHERE products.id = ${productId}
     `;
-    db.query(queryString, (err, data) => {
-    if (err) console.log(err)
-      cb(err, data.rows)
+    return db.query(queryString).then(({rows}) => {
+      return rows;
+    }).catch(err => {
+      console.log(err)
     })
   }
 }

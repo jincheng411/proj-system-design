@@ -3,7 +3,14 @@ const db = new Pool({
   user: 'jincheng',
   host: 'localhost',
   database: 'products',
-  passowrd: '',
+  password: '',
   port: 5432
 });
+db.connect((err)=> {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('postgres connected');
+  }
+})
  module.exports = db;

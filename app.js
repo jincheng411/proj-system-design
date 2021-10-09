@@ -50,21 +50,26 @@ app.get('/api/products/:id', (req, res) => {
 app.get('/api/products/:product_id/styles', (req, res) => {
   const { product_id } = req.params;
   const redisKey = `style-${product_id}`
-  client.get(redisKey, (err, data) => {
-   if (data) {
-     console.log('redis hit')
-     res.send(data);
-   } else {
-     Styles.getStylesByProductId(product_id)
-       .then(data => {
-        client.setex(redisKey, 5, JSON.stringify(data[0])) //redis cache expires 600s
-         res.json(data[0]);
-       }).catch(err => {
-         res.status(400);
-         res.send('400');
-       })
-   }
-  })
+
+    client.get(redisKey, (err, data) => {
+      if (err) {
+        console.log(err);
+        throw err;
+      }
+     if (data) {
+       console.log('redis hit')
+       res.send(data);
+     } else {
+       Styles.getStylesByProductId(product_id)
+         .then(data => {
+          client.setex(redisKey, 5, JSON.stringify(data[0])) //redis cache expires 600s
+           res.json(data[0]);
+         }).catch(err => {
+           res.status(400);
+           res.send('400');
+         })
+     }
+    })
 })
 
 app.get('/api/products/:product_id/related', (req, res) => {
